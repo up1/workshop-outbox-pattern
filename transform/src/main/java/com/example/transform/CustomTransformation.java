@@ -18,7 +18,9 @@ public class CustomTransformation<R extends ConnectRecord<R>> implements Transfo
 
         // Handle only Create
         if ("c".equalsIgnoreCase(databaseOperation)) {
-
+            System.out.println("==========");
+            System.out.println(kStruct.toString());
+            System.out.println("==========");
             // Get the details
             Struct after = (Struct) kStruct.get("after");
             String UUID = after.getString("uuid");

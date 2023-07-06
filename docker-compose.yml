@@ -4,7 +4,7 @@ services:
   # Install postgres and setup the demo database.
   postgres:
     container_name: postgres
-    image: debezium/postgres
+    image: debezium/postgres:15-alpine
     ports:
       - 5432:5432
     environment:
@@ -31,7 +31,7 @@ services:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092,PLAINTEXT_HOST://kafka:29092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://kafka:29092
       LISTENERS: PLAINTEXT://0.0.0.0:9092
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
     depends_on:
@@ -58,12 +58,7 @@ services:
     command: bash -c "
       docker exec -t kafka /usr/bin/kafka-topics \
         --create --bootstrap-server :9092 \
-        --topic email_changed \
-        --partitions 1 \
-        --replication-factor 1 
-      && docker exec -t kafka /usr/bin/kafka-topics \
-        --create --bootstrap-server :9092 \
-        --topic data_created \
+        --topic order \
         --partitions 1 \
         --replication-factor 1"
     depends_on:
